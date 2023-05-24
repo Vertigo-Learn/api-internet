@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-internet-deployment
+  labels:
+    app: api-internet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-internet
+  template:
+    metadata:
+      labels:
+        app: api-internet
+    spec:
+      containers:
+      - name: api-internet
+        image: vtglearn/api-internet
+        ports:
+        - containerPort: 7001
+        livenessProbe: 
+          httpGet:
+            path: /hello/como-esta-minha-saude
+            port: 7001
+          initialDelaySeconds: 15 
+          timeoutSeconds: 30
+        readinessProbe: 
+          httpGet:
+            path: /hello/posso-atender-ao-negocio
+            port: 7001
+          initialDelaySeconds: 15                                 
+          timeoutSeconds: 30 
+        
